@@ -1,0 +1,83 @@
+# build output
+dist/
+
+# generated types
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# environment variables
+.env
+.env.local
+.env.production
+.env.development
+
+# macOS-specific files
+.DS_Store
+
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Cursor specific
+.cursor/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# parcel-bundler cache
+.cache
+.parcel-cache
+
+# Development documentation
+NAV_README.md
+CLAUDE.md
+AGENTS.md
+*_VERIFICATION.md
+PROJECT_*.md
+VERIFICATION_*.md
+CODE_REVIEW_REPORT.md
+DEPLOYMENT.md
+VPS_LINKS_GUIDE.md
+integration-guide.md
+github-pages-deployment-guide.md
+fix-github.plan.md
+DEPLOYMENT_PLAN.md
+FINAL_GUIDE.md
+
+# AI/Development workflow files
+.spec-workflow/
+*.plan.md
+*_GUIDE.md
+*_REPORT.md
+
+# Keep only essential documentation
+!README.md
+!docs/

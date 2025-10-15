@@ -1,0 +1,279 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SearchBar from '../components/SearchBar.astro';
+import Sidebar from '../components/Sidebar.astro';
+import LinkCard from '../components/LinkCard.astro';
+import { loadLinks, loadSearchEngines, loadShortcuts } from '../utils/data';
+
+// 加载共享数据
+const { categories } = loadLinks();
+const searchEngines = loadSearchEngines();
+const shortcuts = loadShortcuts();
+
+// 每日背景图（使用 Picsum Photos）
+const dailySeed = new Date().toISOString().split('T')[0].replace(/-/g, '');
+const backgroundUrl = `https://picsum.photos/seed/${dailySeed}/1920/1080`;
+---
+
+<Layout>
+	<!-- 背景层 -->
+	<div class="fixed inset-0 -z-10 bg-neutral-950">
+		<div
+			id="daily-background"
+			class="absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000 opacity-0"
+			style={`background-image: url('${backgroundUrl}');`}
+		/>
+		<div class="absolute inset-0 bg-gradient-to-b from-neutral-950/70 via-neutral-950/80 to-neutral-950/90" />
+		<div class="absolute inset-0 opacity-[0.015] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxwYXRoIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iLjA1IiBkPSJNMCAwaDMwMHYzMDBIMHoiLz48L3N2Zz4=')]" />
+	</div>
+
+	<main class="relative min-h-screen">
+		<!-- 固定顶部区域 -->
+		<div class="sticky top-0 z-30 bg-gradient-to-b from-neutral-950/95 to-neutral-950/80 backdrop-blur-xl border-b border-white/10 shadow-2xl">
+			<div class="container mx-auto px-6 py-4 max-w-[1400px]">
+				<!-- 页头 -->
+				<header class="text-center mb-4">
+					<h1 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary-400 via-primary-300 to-accent-400 mb-1 animate-gradient">
+						导航仪表板
+					</h1>
+					<p class="text-neutral-300 text-sm font-light">
+						快速访问您最常用的网站和工具
+					</p>
+				</header>
+
+				<!-- 搜索栏 -->
+				<div class="max-w-3xl mx-auto">
+					<SearchBar searchEngines={searchEngines} />
+				</div>
+			</div>
+		</div>
+
+		<!-- 主内容区 - 左右分栏 -->
+		<div class="container mx-auto px-6 py-8 max-w-[1400px]">
+			<div class="flex gap-6">
+				<!-- 左侧边栏 -->
+				<Sidebar categories={categories} />
+
+				<!-- 右侧内容区 -->
+				<div class="flex-1 min-w-0">
+					{categories.map((category, index) => (
+						<div
+							class={`content-panel ${index === 0 ? '' : 'hidden'}`}
+							data-category-id={category.id}
+						>
+								<!-- 分类标题 -->
+								<div class="mb-8">
+									<div class="flex items-center gap-4 mb-4">
+										<div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary-500/20 to-accent-500/20 flex items-center justify-center">
+											<i class={`${category.icon} text-3xl text-primary-300`} />
+										</div>
+										<div>
+											<h2 class="text-3xl font-bold text-neutral-100">{category.name}</h2>
+											{category.description && (
+												<p class="text-neutral-400 text-base mt-1">{category.description}</p>
+											)}
+										</div>
+									</div>
+								</div>
+
+								<!-- 链接网格 -->
+								<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5" data-category-grid={category.id}>
+									{category.links
+										.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0))
+										.map((link, linkIndex) => {
+											const linkId = link.id || link.name.toLowerCase().replace(/\s+/g, '-');
+											return (
+												<div
+													class="link-card-wrapper"
+													data-category-id={category.id}
+													data-category-name={category.name}
+													data-link-id={linkId}
+													data-pinned={link.pinned ? '1' : '0'}
+													data-original-index={linkIndex}
+													data-visit-count="0"
+												>
+													<LinkCard link={link} />
+												</div>
+											);
+										})}
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 页脚 -->
+		<footer class="text-center py-8 text-neutral-400 text-sm font-medium">
+			<p>
+				<kbd class="px-2.5 py-1.5 bg-white/10 rounded-lg font-mono text-xs mx-1">0-9</kbd> 快速切换分类 ·
+				<kbd class="px-2.5 py-1.5 bg-white/10 rounded-lg font-mono text-xs mx-1">/</kbd> 聚焦搜索
+			</p>
+			<p class="mt-3 opacity-60">Powered by Astro · Made with ❤️</p>
+		</footer>
+	</main>
+
+	<!-- 背景图加载脚本 -->
+	<script>
+		const bgElement = document.getElementById('daily-background');
+		if (bgElement) {
+			const bgImage = new Image();
+			const bgUrl = bgElement.style.backgroundImage.match(/url\(['"]?([^'"]+)['"]?\)/)?.[1];
+			if (bgUrl) {
+				bgImage.onload = () => {
+					bgElement.style.opacity = '1';
+				};
+				bgImage.src = bgUrl;
+			}
+		}
+	</script>
+
+	<!-- 键盘快捷键脚本 -->
+	<script define:vars={{ shortcuts }}>
+		document.addEventListener('DOMContentLoaded', () => {
+			const searchInput = document.getElementById('search-input');
+
+			document.addEventListener('keydown', (e) => {
+				// 聚焦搜索框
+				if (e.key === shortcuts.focusSearch && document.activeElement !== searchInput) {
+					e.preventDefault();
+					searchInput?.focus();
+					return;
+				}
+
+				// 如果在输入框中，不处理其他快捷键
+				if (document.activeElement === searchInput ||
+				    document.activeElement?.tagName === 'INPUT' ||
+				    document.activeElement?.tagName === 'SELECT') {
+					return;
+				}
+
+				// 数字键切换分类
+				for (const [categoryId, hotkey] of Object.entries(shortcuts.categoryHotkeys)) {
+					if (e.key === hotkey) {
+						e.preventDefault();
+						(window as any).switchCategory(categoryId);
+						break;
+					}
+				}
+			});
+		});
+	</script>
+
+	<script lang="ts">
+		type VisitMap = Record<string, number>;
+
+		const VISIT_STORAGE_KEY = 'nav-dashboard:click-counts';
+
+		function loadVisitCounts(): VisitMap {
+			try {
+				const raw = localStorage.getItem(VISIT_STORAGE_KEY);
+				if (raw) {
+					const parsed = JSON.parse(raw);
+					if (parsed && typeof parsed === 'object') {
+						return parsed as VisitMap;
+					}
+				}
+			} catch (error) {
+				console.warn('无法加载访问统计，将使用空记录', error);
+			}
+			return {};
+		}
+
+		const visitCounts: VisitMap = loadVisitCounts();
+		(window as any).__linkVisitCounts = visitCounts;
+
+		function persistVisitCounts() {
+			try {
+				localStorage.setItem(VISIT_STORAGE_KEY, JSON.stringify(visitCounts));
+			} catch (error) {
+				console.warn('访问统计无法写入 localStorage', error);
+			}
+		}
+
+		function reorderCategory(categoryId: string | null | undefined) {
+			if (!categoryId) return;
+			const grid = document.querySelector<HTMLElement>(`[data-category-grid="${categoryId}"]`);
+			if (!grid) return;
+			const wrappers = Array.from(grid.querySelectorAll<HTMLElement>('.link-card-wrapper'));
+
+			wrappers.forEach((wrapper) => {
+				const linkId = wrapper.dataset.linkId || '';
+				const visits = visitCounts[linkId] || 0;
+				wrapper.dataset.visitCount = String(visits);
+			});
+
+			wrappers.sort((a, b) => {
+				const pinnedDiff = Number(b.dataset.pinned === '1') - Number(a.dataset.pinned === '1');
+				if (pinnedDiff !== 0) return pinnedDiff;
+				const visitDiff = (Number(b.dataset.visitCount) || 0) - (Number(a.dataset.visitCount) || 0);
+				if (visitDiff !== 0) return visitDiff;
+				const originalDiff = (Number(a.dataset.originalIndex) || 0) - (Number(b.dataset.originalIndex) || 0);
+				return originalDiff;
+			});
+
+			for (const wrapper of wrappers) {
+				grid.appendChild(wrapper);
+			}
+		}
+
+		document.addEventListener('DOMContentLoaded', () => {
+			const wrappers = Array.from(document.querySelectorAll<HTMLElement>('.link-card-wrapper'));
+			const categoryIds = new Set<string>();
+
+			wrappers.forEach((wrapper) => {
+				const linkId = wrapper.dataset.linkId || '';
+				const categoryId = wrapper.dataset.categoryId || '';
+				if (categoryId) categoryIds.add(categoryId);
+				wrapper.dataset.visitCount = String(visitCounts[linkId] || 0);
+
+				const anchor = wrapper.querySelector<HTMLAnchorElement>('.link-card');
+				if (anchor) {
+					anchor.addEventListener('click', () => {
+						document.dispatchEvent(new CustomEvent('nav-dashboard:link-open', {
+							detail: { linkId, categoryId },
+						}));
+					});
+				}
+			});
+
+			categoryIds.forEach((id) => reorderCategory(id));
+		});
+
+		document.addEventListener('nav-dashboard:link-open', (event) => {
+			const detail = (event as CustomEvent).detail as { linkId?: string; categoryId?: string };
+			if (!detail?.linkId) return;
+			const linkId = detail.linkId;
+			visitCounts[linkId] = (visitCounts[linkId] || 0) + 1;
+			persistVisitCounts();
+			(window as any).__linkVisitCounts = visitCounts;
+			if (detail.categoryId) {
+				reorderCategory(detail.categoryId);
+			}
+			document.dispatchEvent(new CustomEvent('nav-dashboard:visit-updated', {
+				detail: { linkId, visitCount: visitCounts[linkId], categoryId: detail.categoryId || '' },
+			}));
+		});
+	</script>
+
+	<style>
+		@keyframes gradient {
+			0%, 100% {
+				background-position: 0% 50%;
+			}
+			50% {
+				background-position: 100% 50%;
+			}
+		}
+
+		.animate-gradient {
+			background-size: 200% auto;
+			animation: gradient 6s ease infinite;
+		}
+
+		kbd {
+			font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+		}
+	</style>
+</Layout>

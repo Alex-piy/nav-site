@@ -1,0 +1,127 @@
+---
+import type { Category } from '../utils/data';
+
+export interface Props {
+  categories: Category[];
+}
+
+const { categories } = Astro.props;
+---
+
+<aside class="sidebar w-40 flex-shrink-0">
+  <nav class="sticky top-4 space-y-0.5">
+    {categories.map((category, index) => (
+      <button
+        type="button"
+        data-category-id={category.id}
+        data-category-index={index}
+        class={`category-btn w-full text-left px-2.5 py-1.5 rounded-md transition-all duration-200 ${
+          index === 0
+            ? 'bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-lg shadow-primary-500/30'
+            : 'bg-white/5 text-neutral-300 hover:bg-white/10 hover:text-neutral-100 border border-white/10'
+        }`}
+        aria-label={`切换到 ${category.name}`}
+      >
+        <div class="flex items-center gap-2.5">
+          <div class={`flex-shrink-0 w-6 h-6 rounded flex items-center justify-center ${
+            index === 0 ? 'bg-white/20' : 'bg-white/10'
+          }`}>
+            <i class={`${category.icon} text-xs`} aria-hidden="true" />
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="font-semibold text-[11px] leading-tight truncate">{category.name}</div>
+            <div class={`text-[8.5px] tracking-wide ${index === 0 ? 'text-white/70' : 'text-neutral-400'}`}>
+              {category.links.length} 个
+            </div>
+          </div>
+        </div>
+      </button>
+    ))}
+  </nav>
+</aside>
+
+<script>
+  // 分类切换逻辑
+  const buttons = document.querySelectorAll('.category-btn');
+
+  function switchCategory(categoryId: string) {
+    // 更新按钮样式
+    buttons.forEach((btn) => {
+      const btnCategoryId = btn.getAttribute('data-category-id');
+      if (btnCategoryId === categoryId) {
+        btn.classList.remove('bg-white/5', 'text-neutral-300', 'hover:bg-white/10', 'hover:text-neutral-100', 'border', 'border-white/10');
+        btn.classList.add('bg-gradient-to-r', 'from-primary-500', 'to-primary-600', 'text-white', 'shadow-lg', 'shadow-primary-500/30');
+
+        // 更新内部元素样式
+        const iconContainer = btn.querySelector('div > div');
+        iconContainer?.classList.remove('bg-white/10');
+        iconContainer?.classList.add('bg-white/20');
+
+        const countText = btn.querySelector('div > div > div:last-child');
+        countText?.classList.remove('text-neutral-400');
+        countText?.classList.add('text-white/70');
+      } else {
+        btn.classList.remove('bg-gradient-to-r', 'from-primary-500', 'to-primary-600', 'text-white', 'shadow-lg', 'shadow-primary-500/30');
+        btn.classList.add('bg-white/5', 'text-neutral-300', 'hover:bg-white/10', 'hover:text-neutral-100', 'border', 'border-white/10');
+
+        const iconContainer = btn.querySelector('div > div');
+        iconContainer?.classList.remove('bg-white/20');
+        iconContainer?.classList.add('bg-white/10');
+
+        const countText = btn.querySelector('div > div > div:last-child');
+        countText?.classList.remove('text-white/70');
+        countText?.classList.add('text-neutral-400');
+      }
+    });
+
+    // 显示对应内容
+    const panels = document.querySelectorAll('.content-panel');
+    panels.forEach((panel) => {
+      const panelCategoryId = panel.getAttribute('data-category-id');
+      if (panelCategoryId === categoryId) {
+        panel.classList.remove('hidden');
+        panel.classList.add('animate-fade-in');
+        setTimeout(() => panel.classList.remove('animate-fade-in'), 300);
+      } else {
+        panel.classList.add('hidden');
+      }
+    });
+  }
+
+  // 添加点击事件
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const categoryId = btn.getAttribute('data-category-id');
+      if (categoryId) {
+        switchCategory(categoryId);
+      }
+    });
+  });
+
+  // 导出函数供快捷键使用
+  (window as any).switchCategory = switchCategory;
+  (window as any).getCurrentCategoryIndex = () => {
+    const activeBtn = Array.from(buttons).find(btn =>
+      btn.classList.contains('from-primary-500')
+    );
+    return activeBtn ? parseInt(activeBtn.getAttribute('data-category-index') || '0') : 0;
+  };
+  (window as any).getCategoriesCount = () => buttons.length;
+</script>
+
+<style>
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+  }
+</style>

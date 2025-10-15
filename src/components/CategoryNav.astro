@@ -1,0 +1,154 @@
+---
+import type { Category } from '../utils/data';
+import LinkCard from './LinkCard.astro';
+
+export interface Props {
+  categories: Category[];
+}
+
+const { categories } = Astro.props;
+---
+
+<div class="categories-container w-full">
+  <!-- 分类标签导航 -->
+  <div class="category-tabs-wrapper sticky top-0 z-20 bg-gradient-to-b from-neutral-900/95 to-neutral-900/80 backdrop-blur-xl border-b border-white/10 mb-8 shadow-lg">
+    <div class="category-tabs flex gap-2 overflow-x-auto py-5 px-4 scrollbar-hide">
+      {categories.map((category, index) => (
+        <button
+          type="button"
+          data-category-id={category.id}
+          data-category-index={index}
+          class={`category-tab flex-shrink-0 px-5 py-2.5 rounded-xl font-medium transition-all duration-200 ${
+            index === 0
+              ? 'bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-lg shadow-primary-500/30'
+              : 'bg-white/5 text-neutral-300 hover:bg-white/10 hover:text-neutral-100 border border-white/10'
+          }`}
+          aria-label={`切换到 ${category.name}`}
+        >
+          <span class="flex items-center gap-2.5">
+            <i class={`${category.icon} text-base`} aria-hidden="true" />
+            <span class="text-sm font-semibold">{category.name}</span>
+            <span class={`text-xs px-2 py-0.5 rounded-md ${
+              index === 0
+                ? 'bg-white/20'
+                : 'bg-white/10'
+            }`}>
+              {category.links.length}
+            </span>
+          </span>
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <!-- 分类内容区 -->
+  <div class="category-content px-4">
+    {categories.map((category, index) => (
+      <div
+        id={`category-${category.id}`}
+        class={`category-panel ${index === 0 ? '' : 'hidden'}`}
+        data-category-id={category.id}
+      >
+        <div class="mb-8">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary-500/20 to-accent-500/20 flex items-center justify-center">
+              <i class={`${category.icon} text-2xl text-primary-300`} />
+            </div>
+            <div>
+              <h2 class="text-3xl font-bold text-neutral-100">{category.name}</h2>
+              {category.description && (
+                <p class="text-neutral-400 mt-1">{category.description}</p>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {category.links
+            .sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0))
+            .map((link) => (
+              <LinkCard link={link} />
+            ))}
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+<script>
+  // 分类切换逻辑
+  const tabs = document.querySelectorAll('.category-tab');
+  const panels = document.querySelectorAll('.category-panel');
+
+  function switchCategory(categoryId: string) {
+    // 更新标签样式
+    tabs.forEach((tab) => {
+      const tabCategoryId = tab.getAttribute('data-category-id');
+      if (tabCategoryId === categoryId) {
+        tab.classList.remove('bg-white/5', 'text-neutral-300', 'hover:bg-white/10', 'hover:text-neutral-100', 'border', 'border-white/10');
+        tab.classList.add('bg-gradient-to-r', 'from-primary-500', 'to-primary-600', 'text-white', 'shadow-lg', 'shadow-primary-500/30');
+      } else {
+        tab.classList.remove('bg-gradient-to-r', 'from-primary-500', 'to-primary-600', 'text-white', 'shadow-lg', 'shadow-primary-500/30');
+        tab.classList.add('bg-white/5', 'text-neutral-300', 'hover:bg-white/10', 'hover:text-neutral-100', 'border', 'border-white/10');
+      }
+    });
+
+    // 显示对应面板（添加淡入动画）
+    panels.forEach((panel) => {
+      const panelCategoryId = panel.getAttribute('data-category-id');
+      if (panelCategoryId === categoryId) {
+        panel.classList.remove('hidden');
+        panel.classList.add('animate-fade-in');
+        setTimeout(() => panel.classList.remove('animate-fade-in'), 300);
+      } else {
+        panel.classList.add('hidden');
+      }
+    });
+  }
+
+  // 添加点击事件
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const categoryId = tab.getAttribute('data-category-id');
+      if (categoryId) {
+        switchCategory(categoryId);
+      }
+    });
+  });
+
+  // 导出切换函数供键盘快捷键使用
+  (window as any).switchCategory = switchCategory;
+  (window as any).getCurrentCategoryIndex = () => {
+    const activeTab = Array.from(tabs).find(tab =>
+      tab.classList.contains('from-primary-500')
+    );
+    return activeTab ? parseInt(activeTab.getAttribute('data-category-index') || '0') : 0;
+  };
+  (window as any).getCategoriesCount = () => tabs.length;
+</script>
+
+<style>
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+  }
+</style>

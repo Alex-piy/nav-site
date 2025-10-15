@@ -1,0 +1,89 @@
+---
+import type { Link } from '../utils/data';
+
+export interface Props {
+  link: Link;
+}
+
+const { link } = Astro.props;
+const displayName = link.name;
+const linkId = link.id || displayName.toLowerCase().replace(/\s+/g, '-');
+---
+
+<a
+  href={link.url}
+  target="_blank"
+  rel="noopener noreferrer"
+  class="link-card group block bg-white/5 hover:bg-white/10 backdrop-blur-sm rounded-lg p-3.5 transition-all duration-300 hover:shadow-[0_8px_24px_rgba(0,0,0,0.2)] hover:-translate-y-1 border border-white/10 hover:border-white/20"
+  data-link-id={linkId}
+>
+  <div class="flex items-start gap-3">
+    <!-- 图标 -->
+    {link.icon ? (
+      <div class="flex-shrink-0 w-9 h-9 rounded-lg bg-white/10 p-1.5 group-hover:bg-white/15 transition-colors">
+        <img
+          src={link.icon}
+          alt={`${displayName} icon`}
+          class="w-full h-full object-contain"
+          loading="lazy"
+          onerror="this.parentElement.innerHTML='<svg class=&quot;w-full h-full text-neutral-400&quot; fill=&quot;currentColor&quot; viewBox=&quot;0 0 20 20&quot;><path d=&quot;M10 2a8 8 0 100 16 8 8 0 000-16zm0 14a6 6 0 110-12 6 6 0 010 12z&quot;/></svg>'"
+        />
+      </div>
+    ) : (
+      <div class="flex-shrink-0 w-9 h-9 rounded-lg bg-gradient-to-br from-primary-500/20 to-accent-500/20 flex items-center justify-center">
+        <svg class="w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M10 2a8 8 0 100 16 8 8 0 000-16zm0 14a6 6 0 110-12 6 6 0 010 12z"/>
+        </svg>
+      </div>
+    )}
+
+    <!-- 内容 -->
+    <div class="flex-1 min-w-0">
+      <div class="flex items-center gap-2 mb-1">
+        <h3 class="text-neutral-100 font-semibold text-sm group-hover:text-primary-300 transition-colors truncate flex-1">
+          {displayName}
+        </h3>
+        {link.pinned && (
+          <svg class="w-3.5 h-3.5 text-accent-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+        )}
+      </div>
+      {link.description && (
+        <p class="text-neutral-400 text-xs leading-relaxed line-clamp-2">
+          {link.description}
+        </p>
+      )}
+      {link.tags && link.tags.length > 0 && (
+        <div class="flex flex-wrap gap-1.5 mt-2">
+          {link.tags.slice(0, 3).map((tag) => (
+            <span class="text-[10px] px-1.5 py-0.5 bg-primary-500/10 text-primary-300 rounded border border-primary-500/20 font-medium">
+              {tag}
+            </span>
+          ))}
+          {link.tags.length > 3 && (
+            <span class="text-[10px] px-1.5 py-0.5 text-neutral-400 font-medium">
+              +{link.tags.length - 3}
+            </span>
+          )}
+        </div>
+      )}
+    </div>
+
+    <!-- 外链图标 -->
+    <div class="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+      <svg class="w-3.5 h-3.5 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+      </svg>
+    </div>
+  </div>
+</a>
+
+<style>
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

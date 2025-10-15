@@ -1,0 +1,147 @@
+---
+import type { SearchEngine } from '../utils/data';
+
+export interface Props {
+  searchEngines: SearchEngine[];
+}
+
+const { searchEngines } = Astro.props;
+const defaultEngine = searchEngines[0];
+---
+
+<div class="search-container w-full mb-6">
+  <div class="relative group">
+    <div class="flex items-stretch gap-0 bg-white/10 backdrop-blur-lg rounded-xl shadow-2xl border border-white/20 overflow-hidden transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+      <!-- 搜索引擎选择器 -->
+      <div class="relative flex-shrink-0">
+        <select
+          id="search-engine-selector"
+          class="appearance-none bg-white/5 hover:bg-white/10 text-neutral-100 pl-11 pr-8 py-2.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary-400/50 cursor-pointer transition-all h-full border-r border-white/10"
+          aria-label="选择搜索引擎"
+        >
+          {searchEngines.map((engine) => (
+            <option value={engine.queryUrl} data-icon={engine.icon} class="bg-neutral-800 text-neutral-100 py-2">{engine.name}</option>
+          ))}
+        </select>
+        <!-- 搜索引擎图标 -->
+        <div class="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
+          <img
+            id="search-engine-icon"
+            src={defaultEngine.icon}
+            alt="Search"
+            class="w-5 h-5 rounded object-contain"
+            onerror="this.style.display='none'"
+          />
+        </div>
+        <!-- 下拉箭头 -->
+        <div class="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none">
+          <svg class="w-3.5 h-3.5 text-neutral-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- 搜索输入框 -->
+      <input
+        type="text"
+        id="search-input"
+        class="flex-1 bg-transparent text-neutral-100 placeholder-neutral-300 px-4 py-2.5 focus:outline-none text-sm font-light min-w-0"
+        placeholder={defaultEngine.placeholder}
+        autocomplete="off"
+      />
+
+      <!-- 搜索按钮 -->
+      <button
+        id="search-button"
+        type="button"
+        class="flex-shrink-0 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white px-6 py-2.5 font-semibold text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-400/50 shadow-lg hover:shadow-xl active:scale-95"
+        aria-label="搜索"
+      >
+        <span class="flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+          <span>搜索</span>
+        </span>
+      </button>
+    </div>
+
+    <!-- 快捷键提示 -->
+    <div class="text-neutral-300 text-xs mt-2.5 text-center opacity-70 font-medium">
+      <kbd class="px-2 py-0.5 bg-white/10 rounded text-neutral-200 font-mono text-[10px] mx-0.5">/</kbd> 聚焦 ·
+      <kbd class="px-2 py-0.5 bg-white/10 rounded text-neutral-200 font-mono text-[10px] mx-0.5">Enter</kbd> 搜索
+    </div>
+  </div>
+</div>
+
+<script>
+  function initSearch() {
+    const selector = document.getElementById('search-engine-selector') as HTMLSelectElement | null;
+    const input = document.getElementById('search-input') as HTMLInputElement | null;
+    const button = document.getElementById('search-button') as HTMLButtonElement | null;
+    const iconImg = document.getElementById('search-engine-icon') as HTMLImageElement | null;
+
+    if (!selector || !input || !button) {
+      console.error('搜索组件元素未找到');
+      return;
+    }
+
+    // 执行搜索
+    function performSearch() {
+      const query = input.value.trim();
+      if (!query) {
+        input.focus();
+        return;
+      }
+
+      const queryUrl = selector.value;
+      const searchUrl = queryUrl + encodeURIComponent(query);
+      console.log('执行搜索:', searchUrl);
+      window.open(searchUrl, '_blank', 'noopener,noreferrer');
+    }
+
+    // 按钮点击
+    button.addEventListener('click', (e) => {
+      e.preventDefault();
+      performSearch();
+    });
+
+    // Enter 键搜索
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        performSearch();
+      }
+    });
+
+    // 选择器变化时更新图标和 placeholder
+    selector.addEventListener('change', () => {
+      const selectedOption = selector.options[selector.selectedIndex];
+      input.placeholder = selectedOption.text + ' 搜索...';
+
+      // 更新图标
+      if (iconImg) {
+        const iconUrl = selectedOption.getAttribute('data-icon');
+        if (iconUrl) {
+          iconImg.src = iconUrl;
+          iconImg.style.display = 'block';
+        }
+      }
+    });
+
+    console.log('搜索功能初始化完成');
+  }
+
+  // 页面加载完成后初始化
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSearch);
+  } else {
+    initSearch();
+  }
+</script>
+
+<style>
+  kbd {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  }
+</style>
