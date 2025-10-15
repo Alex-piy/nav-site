@@ -1,0 +1,455 @@
+categories:
+  # 常用 - 最高频访问
+  - id: "favorites"
+    name: "⭐ 常用"
+    icon: "fa-solid fa-star"
+    description: "最常访问的网站和服务"
+    links:
+      - name: "GitHub"
+        url: "https://github.com"
+        icon: "https://github.githubassets.com/favicons/favicon.svg"
+        description: "代码托管"
+        tags: ["git"]
+        pinned: true
+      - name: "图书馆预约"
+        url: "https://libic.zju.edu.cn"
+        description: "浙大图书馆座位预约"
+        tags: ["zju", "library"]
+        pinned: true
+      - name: "LeetCode"
+        url: "https://leetcode.com"
+        icon: "https://leetcode.com/favicon.ico"
+        description: "算法练习"
+        tags: ["algorithm"]
+        pinned: true
+      - name: "OJ 平台"
+        url: "http://10.72.188.210:2025/problems"
+        description: "课程作业平台"
+        tags: ["homework", "algorithm"]
+        pinned: true
+      - name: "CS 自学指南"
+        url: "https://csdiy.wiki"
+        description: "计算机自学路线"
+        tags: ["cs", "guide"]
+        pinned: true
+      - name: "菜鸟教程"
+        url: "https://www.runoob.com"
+        description: "编程教程"
+        tags: ["tutorial"]
+      - name: "Duck.ai"
+        url: "https://duck.ai"
+        description: "DuckDuckGo AI"
+        tags: ["ai"]
+      - name: "Google Gemini"
+        url: "https://gemini.google.com"
+        icon: "https://www.gstatic.com/lamda/images/favicon_v1_150160cddff7f294ce30.svg"
+        description: "Google AI 助手"
+        tags: ["ai"]
+      - name: "Google 翻译"
+        url: "https://translate.google.com"
+        description: "在线翻译"
+        tags: ["translate"]
+
+  # AI 工具与 LLM
+  - id: "ai-llm"
+    name: "AI 工具"
+    icon: "fa-solid fa-robot"
+    description: "AI 助手、编程工具与模型平台"
+    links:
+      - name: "Claude"
+        url: "https://claude.ai"
+        icon: "https://claude.ai/favicon.ico"
+        description: "Anthropic AI 助手"
+        tags: ["ai", "chat"]
+        pinned: true
+      - name: "ChatGPT"
+        url: "https://chat.openai.com"
+        icon: "https://chat.openai.com/favicon.ico"
+        description: "OpenAI AI 助手"
+        tags: ["ai", "chat"]
+        pinned: true
+      - name: "Google Gemini"
+        url: "https://gemini.google.com"
+        icon: "https://www.gstatic.com/lamda/images/favicon_v1_150160cddff7f294ce30.svg"
+        description: "Google AI 助手"
+        tags: ["ai"]
+      - name: "GitHub Copilot"
+        url: "https://github.com/features/copilot"
+        icon: "https://github.githubassets.com/favicons/favicon.svg"
+        description: "AI 编程助手"
+        tags: ["ai", "coding"]
+      - name: "Google AI Studio"
+        url: "https://aistudio.google.com"
+        description: "Gemini API 平台"
+        tags: ["ai", "api"]
+      - name: "Kilo Code"
+        url: "https://kilocode.com"
+        description: "AI VS Code 扩展"
+        tags: ["ai", "vscode"]
+      - name: "Cursor"
+        url: "https://cursor.sh"
+        description: "AI 代码编辑器"
+        tags: ["ai", "editor"]
+      - name: "Perplexity"
+        url: "https://www.perplexity.ai"
+        description: "AI 搜索引擎"
+        tags: ["ai", "search"]
+      - name: "Midjourney"
+        url: "https://www.midjourney.com"
+        description: "AI 图像生成"
+        tags: ["ai", "image"]
+      - name: "Poe"
+        url: "https://poe.com"
+        description: "多模型 AI 聚合"
+        tags: ["ai", "chat"]
+
+  # 开发工具
+  - id: "development"
+    name: "开发工具"
+    icon: "fa-solid fa-code"
+    description: "编程、版本控制与开发环境"
+    links:
+      - name: "GitHub"
+        url: "https://github.com"
+        icon: "https://github.githubassets.com/favicons/favicon.svg"
+        description: "代码托管与协作"
+        tags: ["git", "code"]
+        pinned: true
+      - name: "Stack Overflow"
+        url: "https://stackoverflow.com"
+        icon: "https://cdn.sstatic.net/Sites/stackoverflow/Img/favicon.ico"
+        description: "开发者问答"
+        tags: ["qa"]
+      - name: "VS Code Docs"
+        url: "https://code.visualstudio.com/docs"
+        description: "VS Code 文档"
+        tags: ["vscode", "docs"]
+      - name: "Compiler Explorer"
+        url: "https://godbolt.org"
+        description: "在线编译器"
+        tags: ["compiler"]
+      - name: "Learn Git Branching"
+        url: "https://learngitbranching.js.org"
+        description: "Git 学习工具"
+        tags: ["git"]
+      - name: "Regex101"
+        url: "https://regex101.com"
+        description: "正则表达式测试"
+        tags: ["regex", "tools"]
+      - name: "DevDocs"
+        url: "https://devdocs.io"
+        description: "API 文档聚合"
+        tags: ["docs", "api"]
+      - name: "GitBook"
+        url: "https://www.gitbook.com"
+        description: "文档协作"
+        tags: ["docs", "collaboration"]
+      - name: "npm"
+        url: "https://www.npmjs.com"
+        description: "Node 包管理"
+        tags: ["nodejs", "package"]
+
+  # 云服务与部署
+  - id: "cloud-services"
+    name: "云服务"
+    icon: "fa-solid fa-cloud"
+    description: "云平台、数据库与部署服务"
+    links:
+      - name: "Vercel"
+        url: "https://vercel.com"
+        icon: "https://vercel.com/favicon.ico"
+        description: "前端部署平台"
+        tags: ["deploy"]
+        pinned: true
+      - name: "Cloudflare"
+        url: "https://dash.cloudflare.com"
+        icon: "https://www.cloudflare.com/favicon.ico"
+        description: "CDN 与 DNS"
+        tags: ["cdn", "dns"]
+      - name: "Azure"
+        url: "https://portal.azure.com"
+        icon: "https://portal.azure.com/favicon.ico"
+        description: "微软云平台"
+        tags: ["cloud", "microsoft"]
+      - name: "Supabase"
+        url: "https://supabase.com/dashboard"
+        description: "开源 Firebase"
+        tags: ["database"]
+      - name: "Oracle Cloud"
+        url: "https://cloud.oracle.com"
+        description: "免费云服务器"
+        tags: ["cloud", "free"]
+      - name: "Upstash Redis"
+        url: "https://console.upstash.com"
+        description: "无服务器 Redis"
+        tags: ["redis"]
+      - name: "Tailscale"
+        url: "https://login.tailscale.com"
+        description: "零配置 VPN"
+        tags: ["vpn", "network"]
+      - name: "Aiven"
+        url: "https://console.aiven.io"
+        description: "托管数据库"
+        tags: ["database"]
+      - name: "Railway"
+        url: "https://railway.app"
+        description: "应用部署平台"
+        tags: ["deploy", "paas"]
+      - name: "Render"
+        url: "https://render.com"
+        description: "云服务平台"
+        tags: ["deploy", "cloud"]
+      - name: "Netlify"
+        url: "https://app.netlify.com"
+        description: "静态站点托管"
+        tags: ["deploy", "static"]
+
+  # 学习资源
+  - id: "learning"
+    name: "学习资源"
+    icon: "fa-solid fa-graduation-cap"
+    description: "课程、教程与学习平台"
+    links:
+      - name: "CS 自学指南"
+        url: "https://csdiy.wiki"
+        description: "计算机自学路线"
+        tags: ["cs"]
+        pinned: true
+      - name: "菜鸟教程"
+        url: "https://www.runoob.com"
+        description: "编程基础教程"
+        tags: ["tutorial"]
+      - name: "cppreference"
+        url: "https://en.cppreference.com"
+        description: "C++ 参考"
+        tags: ["cpp", "docs"]
+      - name: "MDN Web Docs"
+        url: "https://developer.mozilla.org"
+        description: "Web 技术"
+        tags: ["web"]
+      - name: "LeetCode"
+        url: "https://leetcode.com"
+        icon: "https://leetcode.com/favicon.ico"
+        description: "算法练习"
+        tags: ["algorithm"]
+      - name: "CS106B"
+        url: "https://web.stanford.edu/class/cs106b"
+        description: "Stanford 课程"
+        tags: ["course", "cpp"]
+      - name: "CS61A"
+        url: "https://cs61a.org"
+        description: "UC Berkeley 课程"
+        tags: ["course", "python"]
+      - name: "Brilliant"
+        url: "https://brilliant.org"
+        description: "交互式学习"
+        tags: ["math", "cs"]
+      - name: "黑马程序员"
+        url: "https://www.itheima.com"
+        description: "IT 培训课程"
+        tags: ["course", "chinese"]
+      - name: "廖雪峰官网"
+        url: "https://www.liaoxuefeng.com"
+        description: "编程教程"
+        tags: ["tutorial", "chinese"]
+
+  # 文档与工具
+  - id: "docs-tools"
+    name: "文档工具"
+    icon: "fa-solid fa-file-lines"
+    description: "文档编辑、翻译与处理"
+    links:
+      - name: "Overleaf"
+        url: "https://www.overleaf.com"
+        icon: "https://www.overleaf.com/favicon.ico"
+        description: "LaTeX 编辑器"
+        tags: ["latex"]
+        pinned: true
+      - name: "Obsidian"
+        url: "https://obsidian.md"
+        description: "知识管理"
+        tags: ["notes"]
+      - name: "iLovePDF"
+        url: "https://www.ilovepdf.com"
+        description: "PDF 处理"
+        tags: ["pdf"]
+      - name: "DeepL"
+        url: "https://www.deepl.com/translator"
+        description: "AI 翻译"
+        tags: ["translate"]
+      - name: "Pandoc"
+        url: "https://pandoc.org/try"
+        description: "格式转换"
+        tags: ["convert"]
+      - name: "SimpleTex"
+        url: "https://simpletex.cn"
+        description: "OCR 识别"
+        tags: ["ocr", "math"]
+      - name: "Mathpix"
+        url: "https://mathpix.com"
+        description: "数学公式识别"
+        tags: ["ocr", "math"]
+
+  # 下载资源
+  - id: "resources"
+    name: "资源下载"
+    icon: "fa-solid fa-download"
+    description: "学术资源、镜像站与下载"
+    links:
+      - name: "Sci-Hub"
+        url: "https://sci-hub.se"
+        description: "学术论文"
+        tags: ["paper"]
+        pinned: true
+      - name: "Z-Library"
+        url: "https://z-lib.org"
+        description: "电子书"
+        tags: ["ebook"]
+      - name: "清华 TUNA"
+        url: "https://mirrors.tuna.tsinghua.edu.cn"
+        description: "开源镜像"
+        tags: ["mirror"]
+      - name: "ZJU Mirror"
+        url: "https://mirrors.zju.edu.cn"
+        description: "浙大镜像"
+        tags: ["mirror"]
+      - name: "PDF Drive"
+        url: "https://www.pdfdrive.com"
+        description: "PDF 搜索"
+        tags: ["pdf", "search"]
+
+  # 社交与邮箱
+  - id: "social-mail"
+    name: "社交邮箱"
+    icon: "fa-solid fa-envelope"
+    description: "邮箱、社交平台与通讯"
+    links:
+      - name: "Gmail"
+        url: "https://mail.google.com"
+        icon: "https://ssl.gstatic.com/ui/v1/icons/mail/rfr/gmail.ico"
+        description: "Google 邮箱"
+        tags: ["email"]
+        pinned: true
+      - name: "Outlook"
+        url: "https://outlook.com"
+        icon: "https://outlook.live.com/favicon.ico"
+        description: "微软邮箱"
+        tags: ["email"]
+      - name: "ZJU Mail"
+        url: "https://mail.zju.edu.cn"
+        description: "浙大邮箱"
+        tags: ["email", "zju"]
+      - name: "QQ Mail"
+        url: "https://mail.qq.com"
+        description: "QQ 邮箱"
+        tags: ["email"]
+      - name: "Discord"
+        url: "https://discord.com/app"
+        icon: "https://discord.com/assets/favicon.ico"
+        description: "即时通讯"
+        tags: ["chat"]
+      - name: "Firefox Relay"
+        url: "https://relay.firefox.com"
+        description: "邮箱转发"
+        tags: ["email", "privacy"]
+
+  # 账户管理
+  - id: "accounts"
+    name: "账户中心"
+    icon: "fa-solid fa-user"
+    description: "个人账户与服务管理"
+    links:
+      - name: "GitHub Dashboard"
+        url: "https://github.com/dashboard"
+        icon: "https://github.githubassets.com/favicons/favicon.svg"
+        description: "GitHub 面板"
+        tags: ["github"]
+        pinned: true
+      - name: "Google Account"
+        url: "https://myaccount.google.com"
+        description: "Google 账户"
+        tags: ["google"]
+      - name: "Microsoft Account"
+        url: "https://account.microsoft.com"
+        description: "微软账户"
+        tags: ["microsoft"]
+      - name: "Mozilla Account"
+        url: "https://accounts.firefox.com"
+        description: "Firefox 账户"
+        tags: ["mozilla"]
+      - name: "学信网"
+        url: "https://my.chsi.com.cn"
+        description: "学历查询"
+        tags: ["education"]
+
+  # 实用工具
+  - id: "utilities"
+    name: "实用工具"
+    icon: "fa-solid fa-wrench"
+    description: "日常工具与在线服务"
+    links:
+      - name: "欧路词典"
+        url: "https://dict.eudic.net"
+        description: "在线词典"
+        tags: ["dict"]
+        pinned: true
+      - name: "Google 翻译"
+        url: "https://translate.google.com"
+        description: "在线翻译"
+        tags: ["translate"]
+      - name: "DuckDuckGo"
+        url: "https://duckduckgo.com"
+        description: "隐私搜索"
+        tags: ["search"]
+      - name: "测速网"
+        url: "https://www.speedtest.cn"
+        description: "网络测速"
+        tags: ["network"]
+      - name: "临时邮箱"
+        url: "https://temp-mail.org"
+        description: "临时邮箱"
+        tags: ["email"]
+      - name: "JSON Formatter"
+        url: "https://jsonformatter.org"
+        description: "JSON 格式化"
+        tags: ["json", "tools"]
+      - name: "Raycast"
+        url: "https://www.raycast.com"
+        description: "macOS 效率工具"
+        tags: ["productivity", "mac"]
+      - name: "Can I Use"
+        url: "https://caniuse.com"
+        description: "浏览器兼容性"
+        tags: ["web", "compatibility"]
+      - name: "Carbon"
+        url: "https://carbon.now.sh"
+        description: "代码截图美化"
+        tags: ["screenshot", "code"]
+
+  # 社区论坛
+  - id: "community"
+    name: "社区论坛"
+    icon: "fa-solid fa-comments"
+    description: "开发者社区与技术论坛"
+    links:
+      - name: "LINUX DO"
+        url: "https://linux.do"
+        description: "技术社区"
+        tags: ["community"]
+        pinned: true
+      - name: "CC98"
+        url: "https://www.cc98.org"
+        description: "浙大论坛"
+        tags: ["zju"]
+      - name: "HelloGitHub"
+        url: "https://hellogithub.com"
+        description: "开源项目"
+        tags: ["opensource"]
+      - name: "V2EX"
+        url: "https://www.v2ex.com"
+        description: "创意社区"
+        tags: ["tech"]
+      - name: "Reddit Programming"
+        url: "https://www.reddit.com/r/programming"
+        description: "编程讨论"
+        tags: ["community"]

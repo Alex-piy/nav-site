@@ -6,7 +6,7 @@ import yaml from 'js-yaml';
 // Use import.meta.url for robust path resolution
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const SHARED_DATA_PATH = resolve(__dirname, '../../../shared-data/shared/data');
+const SHARED_DATA_PATH = resolve(__dirname, '../../shared/data');
 
 export interface Link {
   id?: string;

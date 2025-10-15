@@ -1,0 +1,18 @@
+{
+  "focusSearch": "/",
+  "openSelected": "Enter",
+  "nextCategory": "ArrowRight",
+  "prevCategory": "ArrowLeft",
+  "categoryHotkeys": {
+    "favorites": "0",
+    "ai-llm": "1",
+    "development": "2",
+    "cloud-services": "3",
+    "learning": "4",
+    "docs-tools": "5",
+    "resources": "6",
+    "social-mail": "7",
+    "accounts": "8",
+    "utilities": "9"
+  }
+}
